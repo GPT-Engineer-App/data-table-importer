@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, Text, VStack, Button, Input, Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
+import { Container, Text, VStack, Button, Input, Table, Thead, Tbody, Tr, Th, Td, useBreakpointValue } from "@chakra-ui/react";
 import { FaUpload } from "react-icons/fa";
 
 const Index = () => {
@@ -25,8 +25,11 @@ const Index = () => {
     setCsvData(data);
   };
 
+  const fontSize = useBreakpointValue({ base: "sm", md: "md" });
+  const padding = useBreakpointValue({ base: 2, md: 4 });
+
   return (
-    <Container centerContent maxW="container.md" height="100vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+    <Container centerContent maxW="container.md" height="100vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center" overflowX="auto">
       <VStack spacing={4}>
         <Text fontSize="2xl">CSV Importer</Text>
         <Input type="file" accept=".csv" onChange={handleFileUpload} display="none" id="file-upload" />
@@ -35,11 +38,11 @@ const Index = () => {
         </Button>
         {fileName && <Text>File: {fileName}</Text>}
         {csvData.length > 0 && (
-          <Table variant="simple">
-            <Thead>
+          <Table variant="striped" size="md" border="1px solid" borderColor="gray.200" p={padding}>
+            <Thead bg="gray.100" fontWeight="bold">
               <Tr>
                 {csvData[0].map((header, index) => (
-                  <Th key={index}>{header}</Th>
+                  <Th key={index} fontSize={fontSize}>{header}</Th>
                 ))}
               </Tr>
             </Thead>
@@ -47,7 +50,7 @@ const Index = () => {
               {csvData.slice(1).map((row, rowIndex) => (
                 <Tr key={rowIndex}>
                   {row.map((cell, cellIndex) => (
-                    <Td key={cellIndex}>{cell}</Td>
+                    <Td key={cellIndex} fontSize={fontSize} p={padding}>{cell}</Td>
                   ))}
                 </Tr>
               ))}
